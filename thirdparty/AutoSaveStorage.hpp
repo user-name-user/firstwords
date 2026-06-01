@@ -56,4 +56,4 @@ public:
     void print() {
         std::cout << data.dump(4) << std::endl;
     }
-}
+};

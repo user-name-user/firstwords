@@ -26,10 +26,16 @@ constexpr int MAP_TO_PERCENT(int value) {
 
 unsigned char g_maturity = 0;
 
-std::string generateResponse(SQLite::Database& db, const std::vector<std::string>& words, AutoSaveStorage& localStorage) {
+std::string generateResponse(SQLite::Database& db, std::vector<std::string>& words, AutoSaveStorage& localStorage) {
     std::string ret = "";
+/*
+#if DEBUG
+    std::cout << "generateResponse called!" << std::endl;
+#endif
+*/
+    bool i = true;          // This line along with any other reference of this variable in this function is a dummy stop condition!
 
-    while (true) {
+    while (i) {
         std::string word1 = words.at(words.size() - 2), word2 = words.back();
         std::string nextWord;
 
@@ -48,14 +54,19 @@ std::string generateResponse(SQLite::Database& db, const std::vector<std::string
         } else {
             nextWord = genBabble();
         }
+
+        words.push_back(nextWord);
+
         ret += nextWord;
         ret.push_back(' ');
+
+        i = false;
     }
 
     return ret;
 }
 
-void processUserInput(const std::string& input, std::vector<std::string>& words, AutoSaveStorage& localStorage, const SQLite::Database& db) {
+void processUserInput(const std::string& input, std::vector<std::string>& words, AutoSaveStorage& localStorage, SQLite::Database& db) {
     std::set<std::string> wordSet;
 
     json value = localStorage["vocab"];
@@ -148,11 +159,14 @@ int main() {
         std::string input;
         std::vector<std::string> words;
 
-        std::cout << "You:";
+        std::cout << "You: ";
         std::getline (std::cin, input);
+        std::cout << std::endl;
+        input += '\n';
 
         processUserInput(input, words, localStorage, db);
         std::cout << generateResponse(db, words, localStorage);
+        std::cout << std::endl;
 
         if (input == "/night") {
             std::cout << "System: Good night. The baby sleeps and sorts through the day.";

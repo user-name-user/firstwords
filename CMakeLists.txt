@@ -1,3 +1,9 @@
+cmake_minimum_required(VERSION 4.3)
+project(Firstwords)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 # Link to SQLiteCpp as before
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/thirdparty/SQLiteCpp-3.3.3)
 
