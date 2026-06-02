@@ -161,7 +161,6 @@ int main() {
 
         std::cout << "You: ";
         std::getline (std::cin, input);
-        std::cout << std::endl;
         input += '\n';
 
         processUserInput(input, words, localStorage, db);
